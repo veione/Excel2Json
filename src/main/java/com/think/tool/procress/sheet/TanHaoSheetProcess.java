@@ -18,7 +18,7 @@ public class TanHaoSheetProcess extends MeiJinSheetProcess {
             if (valueCell != null &&
                     valueCell.getCellTypeEnum() != CellType.BLANK &&
                     !valueCell.getStringCellValue().startsWith("#")) {
-                Map sheetInfoHashMap = DoProcessEachLie(_sheet, _fileName, currentValueCellIndex);
+                Map<String, Object> sheetInfoHashMap = DoProcessEachLie(_sheet, _fileName, currentValueCellIndex);
 
                 if (!sheetInfoHashMap.isEmpty()) {
                     EntityInfo entityInfo = GetOrCreateEntityInfoByName(_fileName + "_" + valueCell.getStringCellValue());

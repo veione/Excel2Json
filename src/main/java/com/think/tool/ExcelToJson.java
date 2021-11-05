@@ -52,7 +52,7 @@ public class ExcelToJson {
                 for (EntityInfo entityInfo : sharedData.allEntityInfoList) {
                     JsonExport.Export(entityInfo, _outputJsonPath);
                 }
-                System.out.println("Done , Enjoy \n\nPowered by Eran");
+                System.out.println("Done , Enjoy \n\nPowered by Veione");
             }
         } catch (IOException e) {
             e.printStackTrace();

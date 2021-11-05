@@ -7,12 +7,13 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class MeiJinSheetProcess extends SheetProcessBasic {
 
     @Override
     public void StartProcess(HSSFSheet _sheet, String _fileName) {
-        HashMap sheetInfoHashMap = DoProcessEachLie(_sheet, _fileName, 3);
+        Map<String, Object> sheetInfoHashMap = DoProcessEachLie(_sheet, _fileName, 3);
         // 将当前Sheet的信息 存入以Excel文件名为Key的EntityInfo中
         if (!sheetInfoHashMap.isEmpty()) {
             EntityInfo entityInfo = GetOrCreateEntityInfoByName(_fileName);
@@ -20,9 +21,9 @@ public class MeiJinSheetProcess extends SheetProcessBasic {
         }
     }
 
-    protected HashMap DoProcessEachLie(HSSFSheet _sheet, String _fileName, int _valueCellIndex) {
+    protected Map<String, Object> DoProcessEachLie(HSSFSheet _sheet, String _fileName, int _valueCellIndex) {
 
-        HashMap sheetInfoHashMap = new HashMap();
+        Map<String, Object> sheetInfoHashMap = new HashMap<>();
 
         //第一行无意义 仅用于标注
         int currentYIndex = 1;

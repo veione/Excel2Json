@@ -1,6 +1,6 @@
 package com.think.tool.handler;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.Cell;
 
 /**
  * 类型处理器接口
@@ -9,7 +9,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
  */
 public interface TypeHandler {
 
-    void handle(HSSFSheet _sheet);
+    Object handle(Cell cell);
 
     String type();
 }

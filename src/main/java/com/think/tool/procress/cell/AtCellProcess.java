@@ -6,12 +6,13 @@ import org.apache.poi.ss.usermodel.CellType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AtCellProcess extends CellProcessBasic {
 
 
     @Override
-    public void StartProcess(HSSFCell _topKeyCell, HSSFCell _argCell, HSSFCell _needProcessCell, HashMap _saveToData) {
+    public void StartProcess(HSSFCell _topKeyCell, HSSFCell _argCell, HSSFCell _needProcessCell, Map<String, Object> _saveToData) {
 
         ArrayList processResult = null;
         if (_needProcessCell == null) {

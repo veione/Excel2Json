@@ -9,13 +9,15 @@ import org.apache.poi.ss.usermodel.CellType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NormalSheetProcess extends SheetProcessBasic {
 
     @Override
     public void StartProcess(HSSFSheet _sheet, String _fileName) {
 
-        ArrayList currentSheetInfoArray = new ArrayList();
+        List<Map<String, Object>> currentSheetInfoArray = new ArrayList<>();
         //从第三行开始
         //第一行 Row Index=0 用于定义Key
         //第二行 Row Index=1 用于读取参数
@@ -38,7 +40,7 @@ public class NormalSheetProcess extends SheetProcessBasic {
                 }
 
                 int currentXIndex = 1;
-                HashMap currentLineInfoHashMap = new HashMap();
+                Map<String, Object> currentLineInfoHashMap = new HashMap<>();
 
 
                 // ================

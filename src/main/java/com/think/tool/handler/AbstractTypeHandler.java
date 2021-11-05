@@ -1,6 +1,8 @@
 package com.think.tool.handler;
 
+import com.think.tool.utils.CellUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.Cell;
 
 /**
  * 抽象类型处理器
@@ -10,8 +12,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 public abstract class AbstractTypeHandler implements TypeHandler {
 
     @Override
-    public void handle(HSSFSheet sheet) {
-
+    public Object handle(Cell cell) {
+        return CellUtils.getCellValue(cell);
     }
 
     @Override

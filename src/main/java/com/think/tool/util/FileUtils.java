@@ -21,13 +21,15 @@ public class FileUtils {
 
 
     public static void writeStringToFile(String _str, String _filePath) {
-        File f = new File(_filePath);
-        try (OutputStreamWriter ow = new OutputStreamWriter(new FileOutputStream(f, true), "UTF-8")){
+        try {
+            File f = new File(_filePath);
             if (f.exists()) {
                 f.delete();
             }
             f.createNewFile();
+            OutputStreamWriter ow = new OutputStreamWriter(new FileOutputStream(f, true), "UTF-8");
             ow.write(_str);
+            ow.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

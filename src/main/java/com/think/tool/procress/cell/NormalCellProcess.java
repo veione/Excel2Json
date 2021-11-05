@@ -6,12 +6,12 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class NormalCellProcess extends CellProcessBasic {
 
     @Override
-    public void StartProcess(HSSFCell _topKeyCell, HSSFCell _argCell, HSSFCell _needProcessCell, HashMap _saveToData) {
+    public void StartProcess(HSSFCell _topKeyCell, HSSFCell _argCell, HSSFCell _needProcessCell, Map<String, Object> _saveToData) {
 
         if (_needProcessCell != null) {
             String key = _topKeyCell.getStringCellValue();
@@ -24,7 +24,7 @@ public class NormalCellProcess extends CellProcessBasic {
         }
     }
 
-    private void SaveCellData(String _key, Cell _needProcessCell, CellType _cellType, HashMap _saveToData) {
+    private void SaveCellData(String _key, Cell _needProcessCell, CellType _cellType, Map<String, Object> _saveToData) {
         switch (_cellType) {
             case NUMERIC:
                 Double doubleValue = _needProcessCell.getNumericCellValue();

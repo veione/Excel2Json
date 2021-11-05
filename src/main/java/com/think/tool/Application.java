@@ -1,10 +1,12 @@
 package com.think.tool;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.think.tool.handler.TypeHandler;
 import com.think.tool.handler.TypeHandlerFactory;
 import com.think.tool.model.SheetItem;
 import com.think.tool.utils.CellUtils;
+import com.think.tool.utils.FileUtils;
 import com.think.tool.utils.JsonUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -13,6 +15,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,21 +25,31 @@ import java.util.Map;
 public class Application {
 
     public static void main(String[] args) throws Exception {
-        Workbook wb = WorkbookFactory.create(new File("D:\\items.xlsx"));
-        int sheetSize = wb.getNumberOfSheets();
-        List<SheetItem> items = new ArrayList<>(sheetSize);
+        String json = FileUtil.readUtf8String("conf.json");
+        Config config = JsonUtils.string2ObjectTurbo(json, Config.class);
+        System.out.println(config);
 
-        for (int i = 0; i < sheetSize; i++) {
-            Sheet sheet = wb.getSheetAt(i);
-            SheetItem item = readRows(sheet);
-            items.add(SheetItem.of(item.getSheetName(), item.getRows()));
-        }
 
-        wb.close();
+        File input = new File(config.getInput());
+        File[] files = input.listFiles();
 
-        for (SheetItem item : items) {
-            System.out.println("导出Json文件：" + item.getSheetName() + ".json");
-            System.out.println(JsonUtils.object2StringTurbo(item.getRows()));
+        for (File file : files) {
+            Workbook wb = WorkbookFactory.create(file);
+            int sheetSize = wb.getNumberOfSheets();
+            List<SheetItem> items = new ArrayList<>(sheetSize);
+
+            for (int i = 0; i < sheetSize; i++) {
+                Sheet sheet = wb.getSheetAt(i);
+                SheetItem item = readRows(sheet);
+                items.add(SheetItem.of(item.getSheetName(), item.getRows()));
+            }
+
+            wb.close();
+
+            for (SheetItem item : items) {
+                System.out.println("导出Json文件：" + item.getSheetName() + ".json");
+                System.out.println(JsonUtils.object2StringTurbo(item.getRows()));
+            }
         }
         /**
          * 如果是数组则以以下格式进行输入：

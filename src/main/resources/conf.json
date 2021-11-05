@@ -1,7 +1,7 @@
 {
-  "input": "",
+  "input": "/Users/veione/Desktop",
   "output": {
-    "client": "",
-    "server": ""
+    "client": "/Users/veione/Desktop/output/client",
+    "server": "/Users/veione/Desktop/output/server"
   }
 }

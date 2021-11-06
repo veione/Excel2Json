@@ -1,18 +1,19 @@
 package com.think.tool.export;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.think.tool.data.EntityInfo;
-import com.think.tool.util.FileUtils;
+import cn.hutool.core.io.FileUtil;
+import com.think.tool.model.SheetItem;
+import com.think.tool.utils.JsonUtils;
 
-import java.io.File;
+/**
+ * Json导出实现
+ *
+ * @author veione
+ */
+public class JsonExport implements IExport {
 
-public class JsonExport {
-
-    public static void Export(EntityInfo _entityInfo, String _exportPath) {
-        Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
-        String json = gson.toJson(_entityInfo.entityMap);
-        FileUtils.writeStringToFile(json, _exportPath + File.separator + _entityInfo.fileName + ".json");
-        System.out.println("Save file to : " + _exportPath + File.separator + _entityInfo.fileName + ".json" + "\n");
+    @Override
+    public void export(String path, SheetItem item) {
+        String content = JsonUtils.object2StringTurbo(item.getRows());
+        FileUtil.writeUtf8String(content, path + item.getSheetName() + ".json");
     }
 }

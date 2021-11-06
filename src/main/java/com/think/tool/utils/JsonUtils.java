@@ -44,7 +44,7 @@ public abstract class JsonUtils {
         //序列化
         MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         MAPPER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        MAPPER.configure(SerializationFeature.INDENT_OUTPUT, true);
+        //MAPPER.configure(SerializationFeature.INDENT_OUTPUT, true);
         // MAPPER.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         //序列化枚举是以toString()来输出，默认false，即默认以name()来输出
         // MAPPER.configure(SerializationFeature.WRITE_ENUMS_USING_INDEX, true);
@@ -57,7 +57,7 @@ public abstract class JsonUtils {
         MAPPER_TURBO.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         MAPPER_TURBO.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         MAPPER_TURBO.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-        MAPPER_TURBO.configure(SerializationFeature.INDENT_OUTPUT, true);
+        //MAPPER_TURBO.configure(SerializationFeature.INDENT_OUTPUT, true);
         MAPPER_TURBO.registerModule(new AfterburnerModule());
     }
 
@@ -108,7 +108,14 @@ public abstract class JsonUtils {
         }
     }
 
-    //元素不可重复
+    /**
+     * 元素不可重复
+     *
+     * @param json
+     * @param clazz
+     * @param <T>
+     * @return
+     */
     public static <T> Set<T> string2Set(String json, Class<T> clazz) {
         CollectionType collectionType = MAPPER.getTypeFactory().constructCollectionType(HashSet.class, clazz);
         try {

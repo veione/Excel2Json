@@ -1,4 +1,4 @@
-package com.think.tool;
+package com.think.tool.model;
 
 /**
  * 配置

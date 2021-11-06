@@ -1,7 +1,7 @@
 {
-  "input": "/Users/veione/Desktop",
+  "input": "C:\\Users\\admin\\IdeaProjects\\Excel2Json\\src\\main\\resources\\excel",
   "output": {
-    "client": "/Users/veione/Desktop/output/client",
-    "server": "/Users/veione/Desktop/output/server"
+    "client": "D:\\output\\client\\",
+    "server": "D:\\output\\server\\"
   }
 }

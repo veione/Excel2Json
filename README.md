@@ -2,7 +2,7 @@
 
 ### 概述
 
-Excel2Json 是将Excel表格直接导出成JSON文件格式的一个小工具
+[Excel2Json](https://github.com/veione/Excel2Json) 是将Excel表格直接导出成JSON文件格式的一个小工具
 
 ### 使用方法
 

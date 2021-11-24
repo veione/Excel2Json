@@ -1,6 +1,6 @@
 package com.think.tool.utils;
 
-import com.think.tool.exception.AssertException;
+import cn.hutool.core.util.StrUtil;
 
 import java.util.Collection;
 import java.util.Map;
@@ -27,7 +27,7 @@ public abstract class AssertionUtils {
      */
     public static void isTrue(boolean expression, String message) {
         if (!expression) {
-            throw new AssertException(message);
+            throw new RuntimeException(message);
         }
     }
 
@@ -40,7 +40,7 @@ public abstract class AssertionUtils {
      */
     public static void isTrue(boolean expression, String format, Object... args) {
         if (!expression) {
-            throw new AssertException(format, args);
+            throw new RuntimeException(StrUtil.format(format, args));
         }
     }
 
@@ -59,13 +59,13 @@ public abstract class AssertionUtils {
      */
     public static void ge(long x, long y) {
         if (x < y) {
-            throw new AssertException("[Assertion failed] - the param [x:{}] must greater or equal [y:{}]", x, y);
+            throw new RuntimeException(StrUtil.format("[Assertion failed] - the param [x:{}] must greater or equal [y:{}]", x, y));
         }
     }
 
     public static void le(long x, long y) {
         if (x > y) {
-            throw new AssertException("[Assertion failed] - the param [x:{}] must less or equal [y:{}]", x, y);
+            throw new RuntimeException(StrUtil.format("[Assertion failed] - the param [x:{}] must less or equal [y:{}]", x, y));
         }
     }
 
@@ -98,7 +98,7 @@ public abstract class AssertionUtils {
      */
     public static void notEmpty(Collection<?> collection, String message) {
         if (collection == null || collection.isEmpty()) {
-            throw new AssertException(message);
+            throw new RuntimeException(message);
         }
     }
 
@@ -117,7 +117,7 @@ public abstract class AssertionUtils {
      */
     public static void notEmpty(Map<?, ?> map, String message) {
         if (map == null || map.isEmpty()) {
-            throw new AssertException(message);
+            throw new RuntimeException(message);
         }
     }
 
@@ -137,13 +137,13 @@ public abstract class AssertionUtils {
      */
     public static void isNull(Object object, String message) {
         if (object != null) {
-            throw new AssertException(message);
+            throw new RuntimeException(message);
         }
     }
 
     public static void isNull(Object object, String format, Object... args) {
         if (object != null) {
-            throw new AssertException(format, args);
+            throw new RuntimeException(StrUtil.format(format, args));
         }
     }
 
@@ -153,13 +153,13 @@ public abstract class AssertionUtils {
 
     public static void notNull(Object object, String message) {
         if (object == null) {
-            throw new AssertException(message);
+            throw new RuntimeException(message);
         }
     }
 
     public static void notNull(Object object, String format, Object... args) {
         if (object == null) {
-            throw new AssertException(format, args);
+            throw new RuntimeException(StrUtil.format(format, args));
         }
     }
 
@@ -188,7 +188,7 @@ public abstract class AssertionUtils {
     public static void isInstanceOf(Class<?> type, Object obj, String message) {
         notNull(type, "Type to check against must not be null");
         if (!type.isInstance(obj)) {
-            throw new AssertException(
+            throw new RuntimeException(
                     (!StringUtils.isBlank(message) ? message + " " : "") +
                             "Object of class [" + (obj != null ? obj.getClass().getName() : "null") +
                             "] must be an instance of " + type);
@@ -214,7 +214,7 @@ public abstract class AssertionUtils {
     public static void isAssignable(Class<?> superType, Class<?> subType, String message) {
         notNull(superType, "Type to check against must not be null");
         if (subType == null || !superType.isAssignableFrom(subType)) {
-            throw new AssertException((!StringUtils.isBlank(message) ? message + " " : "")
+            throw new RuntimeException((!StringUtils.isBlank(message) ? message + " " : "")
                     + subType + " is not assignable to " + superType);
         }
     }

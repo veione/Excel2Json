@@ -1,5 +1,6 @@
 {
   "input": "C:\\Users\\admin\\IdeaProjects\\Excel2Json\\src\\main\\resources\\excel",
+  "format": true,
   "output": {
     "client": "D:\\output\\client\\",
     "server": "D:\\output\\server\\"

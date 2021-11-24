@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.type.ArrayType;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
-import com.think.tool.exception.RunException;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -65,7 +64,7 @@ public abstract class JsonUtils {
         try {
             return MAPPER.readValue(json, clazz);
         } catch (Exception e) {
-            throw new RunException(e, "将json字符串[json:{}]转换为对象[class:{}]时异常", json, clazz);
+            throw new RuntimeException("将json字符串[json:{}]转换为对象[class:{}]时异常", e);
         }
     }
 
@@ -73,7 +72,7 @@ public abstract class JsonUtils {
         try {
             return MAPPER.writeValueAsString(object);
         } catch (Exception e) {
-            throw new RunException(e, "将对象[object:{}]转换为json字符串时异常", object);
+            throw new RuntimeException("将对象[object:{}]转换为json字符串时异常", e);
         }
     }
 
@@ -84,7 +83,7 @@ public abstract class JsonUtils {
         try {
             return MAPPER_TURBO.readValue(json, clazz);
         } catch (Exception e) {
-            throw new RunException(e, "将json字符串[json:{}]转换为对象[class:{}]时异常", json, clazz);
+            throw new RuntimeException("将json字符串[json:{}]转换为对象[class:{}]时异常", e);
         }
     }
 
@@ -95,7 +94,7 @@ public abstract class JsonUtils {
         try {
             return MAPPER_TURBO.writeValueAsString(object);
         } catch (Exception e) {
-            throw new RunException(e, "将对象[object:{}]转换为json字符串时异常", object);
+            throw new RuntimeException("将对象[object:{}]转换为json字符串时异常", e);
         }
     }
 
@@ -104,7 +103,7 @@ public abstract class JsonUtils {
         try {
             return MAPPER.readValue(json, collectionType);
         } catch (Exception e) {
-            throw new RunException(e, "将json字符串[json:{}]转换为List[{}]异常", json, clazz);
+            throw new RuntimeException("将json字符串[json:{}]转换为List[{}]异常", e);
         }
     }
 
@@ -121,7 +120,7 @@ public abstract class JsonUtils {
         try {
             return MAPPER.readValue(json, collectionType);
         } catch (Exception e) {
-            throw new RunException(e, "将json字符串[json:{}]转换为Set[{}]异常", json, clazz);
+            throw new RuntimeException("将json字符串[json:{}]转换为Set[{}]异常", e);
         }
     }
 
@@ -130,7 +129,7 @@ public abstract class JsonUtils {
             CollectionType ct = MAPPER.getTypeFactory().constructCollectionType(collectionType, elementType);
             return MAPPER.readValue(json, ct);
         } catch (IOException e) {
-            throw new RunException(e, "将json字符串[json:{}]转换为Collection[{}]异常", json, collectionType);
+            throw new RuntimeException("将json字符串[json:{}]转换为Collection[{}]异常", e);
         }
     }
 
@@ -139,7 +138,7 @@ public abstract class JsonUtils {
         try {
             return MAPPER.readValue(json, mapType);
         } catch (Exception e) {
-            throw new RunException(e, "将json字符串[json:{}]转换为Map[[key:{}], [value:{}]]异常", json, kClazz, vClazz);
+            throw new RuntimeException("将json字符串[json:{}]转换为Map[[key:{}], [value:{}]]异常", e);
         }
     }
 
@@ -148,7 +147,7 @@ public abstract class JsonUtils {
         try {
             return MAPPER.readValue(json, arrayType);
         } catch (Exception e) {
-            throw new RunException(e, "将json字符串[{}]转换为数组[array:{}]异常", json, clazz);
+            throw new RuntimeException("将json字符串[{}]转换为数组[array:{}]异常", e);
         }
     }
 
@@ -182,7 +181,7 @@ public abstract class JsonUtils {
                 }
             }
         } catch (IOException e) {
-            throw new RunException(e, "将json字符串[json:{}]转换为jsonTree[nodeName:{}]异常", json, nodeName);
+            throw new RuntimeException("将json字符串[json:{}]转换为jsonTree[nodeName:{}]异常", e);
         }
         return null;
     }
@@ -208,7 +207,19 @@ public abstract class JsonUtils {
             }
             return jsonMap;
         } catch (IOException e) {
-            throw new RunException(e, "将json字符串[json:{}]转换为jsonMap异常", json);
+            throw new RuntimeException("将json字符串[json:{}]转换为jsonMap异常", e);
+        }
+    }
+
+    /**
+     * 配置是否格式化
+     *
+     * @param format
+     */
+    public static void setFormat(boolean format) {
+        if (format) {
+            MAPPER_TURBO.configure(SerializationFeature.INDENT_OUTPUT, true);
+            MAPPER.configure(SerializationFeature.INDENT_OUTPUT, true);
         }
     }
 }

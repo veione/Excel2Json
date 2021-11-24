@@ -1,12 +1,5 @@
 # Excel2Json
 
-## 更新 2019-07-16
-
-![01](imgs/Img5.jpg)
-
-- 加入了对合并后的单元格支持
-- Fix 单元格首列类型不为String则无法解析
-
 ### 概述
 
 Excel2Json 是将Excel表格直接导出成JSON文件格式的一个小工具
@@ -14,146 +7,77 @@ Excel2Json 是将Excel表格直接导出成JSON文件格式的一个小工具
 ### 使用方法
 
 
-1. 下载Release文件夹下所有文件,拷贝到本地目录 比如 D:\Tools\Excel2Json 目录
-2. 修改Run.bat文件  
-   `EXCEL_FOLER`: Excel文件所在的目录  
-   `EXPORT_JSON_FOLDER`:导出的Json目录
-
-3. 也可以在命令行里直接通过 `java -jar Excel2Json-1.1.jar` 转换单独的Excel
-
-
-```
-比如:
-
-java -jar Excel2Json-1.1.jar C:\example.xls D:\out\example.json
-
-```
-
-### Sheet
-
-![01](imgs/Img1.jpg)
-
-#### 不带符号
-
-![01](imgs/Img2.jpg)
-
-不带符号的表单会作为基础模式导出,上图的例子导出的Json结构为:
-```
+1. 配置好conf.json文件;
+```json
 {
-  "normal": [
-    {
-      "name": "xxx",
-      "ID": "ID_001",
-      "age": 15,
-      "info": [
-        {
-          "arg2": "yy",
-          "arg1": "xx"
-        },
-        {
-          "arg2": 23,
-          "arg1": 1.1
-        }
-      ],
-      "info2": [
-        "ID001",
-        "ID002",
-        15
-      ]
-    }
-  ]
-}
-```
-
-- Excel中第一列用于标记是否导出  第一行为二级Key的名称  第二行为二级Key的解析参数
-
-- Sheet的名字为normal,所以Json第一层结构以`normal`做key,里面是一个`Array`
-
-- 4A,5A,6A标记以`#`开头则当前行不导出. 同理G1也以`#`开头 所以也不导出
-
-- E1,F1均以`@`开头,其内部均按数组方式解析.  
-  数组中的每个元素用`;`隔开,其内部的子参数用`,`分割  
-  如果内部只有一个元素可以忽略不写参数(F2就是),此时内部元素会直接Push到数组中
-
-#### #号开头
-
-以`#`开头表示当前Sheet不导出,同理在Sheet内部也是这样. 一行或者一列以`#`开头均不导出
-
-
-#### $号开头
-
-![01](imgs/Img3.jpg)
-
-以`$`开头,则内部仅读取前四列中的信息(从第二行开始读起,第一行不读取),其中
-
-
-- 第一列: 标记当前行是否读取
-- 第二列: 内部Key
-- 第三列: 内部Key的解析参数
-- 第四列: 具体的Value值
-
-
-```
-{
-  "eranInfo": {
-    "gender": 1,
-    "name": "Eran",
-    "icon": "icon.png",
-    "ID": "function test(){alert(\"Called\");}",
-    "age": 18,
-    "info": [
-      {
-        "arg2": "yy",
-        "arg1": "xx"
-      },
-      {
-        "arg2": 23,
-        "arg1": 1.1
-      }
-    ],
-    "info2": [
-      "ID001",
-      "ID002",
-      15
-    ]
+  "input": "C:\\Users\\admin\\IdeaProjects\\Excel2Json\\src\\main\\resources\\excel",
+  "format": true,
+  "output": {
+    "client": "D:\\output\\client\\",
+    "server": "D:\\output\\server\\"
   }
 }
 ```
-
-#### !号开头
-
-![01](imgs/Img4.jpg)
-
-以`!`开头的Excel一般用于多语言文件. 程序导出逻辑同`$`开头的Sheet,不过会把每一列单独导出一个Json文件.
-比如当前Excel文件名是I18N,则上图中的表会被分别导出到`I18N_zh_CN.json`和`I18N_en_US.json`
-
-其导出的Json结构为:
-```
-{
-  "I18N": {
-    "Common_OK": "好",
-    "TF_GiftBtn": "礼物",
-    "info": [
-      {
-        "arg2": "yy",
-        "arg1": "xx"
-      },
-      {
-        "arg2": 23,
-        "arg1": 1.1
-      }
-    ],
-    "info2": [
-      "ID001",
-      "ID002",
-      15
-    ]
-  }
+<pre>
+input：指定Excel文件的所在目录;
+format：是否格式化Json;
+output: {
+    client：客户端输出的目录位置
+    server：服务端输出的目录位置
 }
-```
-
-其内部的一级Key,上面Demo中的`I18N`就是Excel的文件名.
-
+</pre>
+2. 运行Run.bat文件  
 
 
+### 如何使用
+<pre>
+第一行：字段描述信息
+第二行：字段的名称
+第三行：字段的类型
+第四行：服务端/客户端导出
+第五行：开始到结束为数据行
+</pre>
+![01](imgs/img1.png)
 
+
+#### 字段类型
+<pre>
+目前的字段类型支持以下格式：
+int：整型
+string：字符串
+float：浮点型
+double：双精度浮点型
+bool：布尔类型(true/false)
+date：日期类型，本质上是一个字符串
+int*：整型数组
+float*：浮点型数组
+double*：双精度浮点型数组
+string*：字符串数组
+json：通过key:value映射的一个对象
+</pre>
+
+
+#### #号
+
+以`#`开头表示的字段在描述上面表示不会导出该字段。
+
+![02](imgs/img2.png)
+
+
+#### 相同数据合并功能
+
+![03](imgs/img3.png)
+
+如果有列的值都是相同的情况下，可以使用单元格合并的方式进行合并为一列，解析的时候会自动解析出合并单元格的内容。
+
+#### 服务器/客户端导出
+
+![04](imgs/img4.png)
+
+该行标记了是否是导出到客户端/服务器的文件，如果为空则表示客户端/服务器都会导出，比如某些字段只有客户端会用到那么这里只需要填写c就可以了，如果有些字段只有服务器会用到这里填写s即可，不填写或者填写cs表示客户端和服务器都会进行导出。
+
+#### 关于文件名的说明
+
+![05](imgs/img5.png)
+
+导出的文件名是以Excel文件的Sheet为导出文件名的，所以这里一般需要我们在配置表的时候注意尽量不要使用中文或者空格等非法格式。

@@ -9,6 +9,7 @@ package com.think.tool.model;
  */
 public final class Config {
     private String input;
+    private boolean format;
     private OutputConfig output;
 
     public static class OutputConfig {
@@ -30,6 +31,14 @@ public final class Config {
         public void setServer(String server) {
             this.server = server;
         }
+    }
+
+    public boolean isFormat() {
+        return format;
+    }
+
+    public void setFormat(boolean format) {
+        this.format = format;
     }
 
     public String getInput() {

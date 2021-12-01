@@ -1,29 +1,20 @@
 package com.think.tool;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.StrUtil;
 import com.think.tool.constant.Constants;
 import com.think.tool.export.IExport;
 import com.think.tool.export.JsonExport;
-import com.think.tool.handler.TypeHandler;
-import com.think.tool.handler.TypeHandlerFactory;
 import com.think.tool.model.Config;
 import com.think.tool.model.SheetItem;
 import com.think.tool.parse.DefaultExcelParser;
 import com.think.tool.parse.ExcelParser;
-import com.think.tool.utils.CellUtils;
+import com.think.tool.utils.FileUtil;
 import com.think.tool.utils.JsonUtils;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -34,11 +25,11 @@ import java.util.Map;
  */
 public class Application {
 
-
     public static void main(String[] args) throws Exception {
         printWelcome();
         if (args.length == 1) {
-            String json = FileUtil.readUtf8String(args[0]);
+            File confFile = new File(args[0]);
+            String json = FileUtil.readUtf8String(confFile);
             Config config = JsonUtils.string2ObjectTurbo(json, Config.class);
             JsonUtils.setFormat(config.isFormat());
 
@@ -52,7 +43,7 @@ public class Application {
 
             for (File file : files) {
                 if (Constants.XLSX.equals(FileUtil.extName(file)) || Constants.XLS.equals(FileUtil.extName(file))) {
-                    try(Workbook wb = WorkbookFactory.create(file)) {
+                    try (Workbook wb = WorkbookFactory.create(file)) {
                         int sheetSize = wb.getNumberOfSheets();
                         List<SheetItem> serverItems = new ArrayList<>(sheetSize);
                         List<SheetItem> clientItems = new ArrayList<>(sheetSize);
